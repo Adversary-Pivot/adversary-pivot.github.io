@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 const content = {
   en: {
     brand: { first: 'ADVERSARY', second: 'PIVOT', aria: 'Adversary Pivot home' },
-    pageTitle: 'Adversary Pivot | Cloud & DevOps Offensive Security Training',
+    pageTitle: 'Adversary Pivot, Offensive Security Training',
     description: 'Adversary Pivot delivers offensive security training for cloud and DevOps teams.',
     nav: { focus: 'Focus', approach: 'Approach', contact: 'Start a conversation', aria: 'Primary navigation' },
     hero: {
@@ -56,7 +56,7 @@ const content = {
   },
   fr: {
     brand: { first: 'PIVOT', second: 'ADVERSAIRE', aria: 'Accueil de Pivot Adversaire' },
-    pageTitle: 'Pivot Adversaire | Formation en sécurité offensive infonuagique et DevOps',
+    pageTitle: 'Pivot Adversaire, Formation en cybersécurité offensive',
     description: 'Pivot Adversaire offre de la formation en sécurité offensive aux équipes infonuagiques et DevOps.',
     nav: { focus: 'Domaines', approach: 'Approche', contact: 'Parlons-nous', aria: 'Navigation principale' },
     hero: {
