@@ -13,25 +13,22 @@ if ! gh auth status --active --hostname github.com >/dev/null 2>&1; then
   exit 1
 fi
 
-if gh repo view "${full_repository}" >/dev/null 2>&1; then
-  if git remote get-url origin >/dev/null 2>&1; then
-    current_remote="$(git remote get-url origin)"
-    if [[ "${current_remote}" != "${remote_url}" && "${current_remote}" != "git@github.com:${full_repository}.git" ]]; then
-      echo "Refusing to replace unexpected origin remote: ${current_remote}" >&2
-      exit 1
-    fi
-  else
-    git remote add origin "${remote_url}"
-  fi
-  git push --set-upstream origin main
-else
-  gh repo create "${full_repository}" \
-    --public \
-    --description "Adversary Pivot company website" \
-    --source . \
-    --remote origin \
-    --push
+if ! gh repo view "${full_repository}" >/dev/null 2>&1; then
+  echo "Expected transferred repository ${full_repository} was not found." >&2
+  echo "Confirm its exact repository name and your organization access." >&2
+  exit 1
 fi
+
+if git remote get-url origin >/dev/null 2>&1; then
+  current_remote="$(git remote get-url origin)"
+  if [[ "${current_remote}" != "${remote_url}" && "${current_remote}" != "git@github.com:${full_repository}.git" ]]; then
+    echo "Refusing to replace unexpected origin remote: ${current_remote}" >&2
+    exit 1
+  fi
+else
+  git remote add origin "${remote_url}"
+fi
+git push --set-upstream origin main
 
 if ! gh api "repos/${full_repository}/pages" >/dev/null 2>&1; then
   # A first push can enable Pages between the GET and POST requests. Ignore that
