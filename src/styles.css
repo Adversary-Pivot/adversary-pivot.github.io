@@ -231,8 +231,15 @@ footer { min-height: 130px; display: flex; align-items: center; justify-content:
 }
 
 @media (max-width: 600px) {
-  .brand > .brand-name, .brand-tagline { display: none; }
+  .brand { gap: 9px; }
+  .brand > .brand-icon { width: 40px; height: 40px; border-radius: 9px; }
+  .brand > .brand-name { display: grid; }
+  .brand b { font-size: 11px; }
+  .brand em { margin-top: 4px; font-size: 8px; letter-spacing: .16em; }
+  .brand-tagline { display: none; }
   .site-header { padding-inline: 18px; }
+  nav { gap: 0; }
+  .language-switch button { min-width: 30px; padding: 5px 6px; }
   .nav-cta { display: none; }
   h1 { font-size: 51px; }
   .hero-copy { padding: 75px 24px 70px; }
