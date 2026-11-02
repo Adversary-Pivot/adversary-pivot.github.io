@@ -8,7 +8,7 @@ const content = {
     nav: { trainings: 'Trainings', focus: 'Focus', approach: 'Approach', contact: 'Start a conversation', aria: 'Primary navigation' },
     hero: {
       eyebrow: 'Cloud & DevOps Offensive Security Training',
-      title: ['Break the path', 'before attackers do.'],
+      title: ['Map the path', 'before attackers do.'],
       lede: 'Hands-on training that turns cloud identities, delivery pipelines, and hidden trust relationships into attack paths your team can see—and stop.',
       primary: 'Explore training',
       secondary: 'See the focus areas',
@@ -72,7 +72,7 @@ const content = {
     nav: { trainings: 'Formations', focus: 'Domaines', approach: 'Approche', contact: 'Parlons-nous', aria: 'Navigation principale' },
     hero: {
       eyebrow: 'Formation en sécurité offensive infonuagique et DevOps',
-      title: ['Interrompez le parcours', 'avant les attaquants.'],
+      title: ['Cartographiez le parcours', 'avant les attaquants.'],
       lede: 'Une formation pratique qui transforme les identités infonuagiques, les pipelines de livraison et les relations de confiance cachées en parcours d’attaque que votre équipe peut voir—et interrompre.',
       primary: 'Découvrir la formation',
       secondary: 'Voir les domaines',
