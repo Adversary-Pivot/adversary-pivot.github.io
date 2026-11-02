@@ -3,13 +3,11 @@
 set -euo pipefail
 
 owner="Adversary-Pivot"
-repository="adversarypivot.github.io"
+repository="adversary-pivot.github.io"
 full_repository="${owner}/${repository}"
-previous_repository="filipjodoin-ap.github.io"
-previous_full_repository="${owner}/${previous_repository}"
+previous_repositories=("adversarypivot.github.io" "filipjodoin-ap.github.io")
 domain="adversarypivot.com"
 remote_url="https://github.com/${full_repository}.git"
-previous_remote_url="https://github.com/${previous_full_repository}.git"
 
 if ! gh auth status --active --hostname github.com >/dev/null 2>&1; then
   echo "GitHub CLI is not authenticated. Run: gh auth login --hostname github.com --web" >&2
@@ -17,21 +15,38 @@ if ! gh auth status --active --hostname github.com >/dev/null 2>&1; then
 fi
 
 if ! gh repo view "${full_repository}" >/dev/null 2>&1; then
-  if gh repo view "${previous_full_repository}" >/dev/null 2>&1; then
-    echo "Renaming ${previous_full_repository} to ${full_repository}..."
-    gh repo rename "${repository}" \
-      --repo "${previous_full_repository}" \
-      --yes
-  else
-    echo "Neither ${full_repository} nor ${previous_full_repository} was found." >&2
+  repository_to_rename=""
+  for previous_repository in "${previous_repositories[@]}"; do
+    previous_full_repository="${owner}/${previous_repository}"
+    if gh repo view "${previous_full_repository}" >/dev/null 2>&1; then
+      repository_to_rename="${previous_full_repository}"
+      break
+    fi
+  done
+
+  if [[ -z "${repository_to_rename}" ]]; then
+    echo "The target repository and its expected previous names were not found." >&2
     echo "Confirm the repository name and your organization access." >&2
     exit 1
   fi
+
+  echo "Renaming ${repository_to_rename} to ${full_repository}..."
+  gh repo rename "${repository}" \
+    --repo "${repository_to_rename}" \
+    --yes
 fi
 
 if git remote get-url origin >/dev/null 2>&1; then
   current_remote="$(git remote get-url origin)"
-  if [[ "${current_remote}" == "${previous_remote_url}" || "${current_remote}" == "git@github.com:${previous_full_repository}.git" ]]; then
+  expected_previous_remote=false
+  for previous_repository in "${previous_repositories[@]}"; do
+    if [[ "${current_remote}" == "https://github.com/${owner}/${previous_repository}.git" || "${current_remote}" == "git@github.com:${owner}/${previous_repository}.git" ]]; then
+      expected_previous_remote=true
+      break
+    fi
+  done
+
+  if [[ "${expected_previous_remote}" == true ]]; then
     git remote set-url origin "${remote_url}"
   elif [[ "${current_remote}" != "${remote_url}" && "${current_remote}" != "git@github.com:${full_repository}.git" ]]; then
     echo "Refusing to replace unexpected origin remote: ${current_remote}" >&2
@@ -78,5 +93,5 @@ gh run watch "${run_id}" --repo "${full_repository}" --exit-status
 echo
 echo "GitHub Pages deployment completed."
 echo "Repository: https://github.com/${full_repository}"
-echo "Pages URL: https://adversary-pivot.github.io/${repository}"
+echo "Pages URL: https://adversary-pivot.github.io"
 echo "Custom domain: https://${domain} (available after DNS and certificate provisioning)"
