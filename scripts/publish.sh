@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-owner="filipjodoin-ap"
+owner="Adversary-Pivot"
 repository="filipjodoin-ap.github.io"
 full_repository="${owner}/${repository}"
 domain="adversarypivot.com"
@@ -69,5 +69,5 @@ gh run watch "${run_id}" --repo "${full_repository}" --exit-status
 echo
 echo "GitHub Pages deployment completed."
 echo "Repository: https://github.com/${full_repository}"
-echo "Pages URL: https://${owner}.github.io"
+echo "Pages URL: https://adversary-pivot.github.io/${repository}"
 echo "Custom domain: https://${domain} (available after DNS and certificate provisioning)"

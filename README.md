@@ -25,4 +25,4 @@ With GitHub CLI authenticated, run:
 ./scripts/publish.sh
 ```
 
-The script creates the public `filipjodoin-ap/filipjodoin-ap.github.io` repository when needed, enables workflow-based GitHub Pages, sets `adversarypivot.com` as the custom domain, and watches the deployment.
+The script targets the public `Adversary-Pivot/filipjodoin-ap.github.io` repository, enables workflow-based GitHub Pages, sets `adversarypivot.com` as the custom domain, and watches the deployment.
