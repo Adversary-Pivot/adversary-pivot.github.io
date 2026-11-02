@@ -227,7 +227,7 @@ function App() {
             <h1><span>{t.hero.title[0]}</span><span>{t.hero.title[1]}</span></h1>
             <p className="hero-lede">{t.hero.lede}</p>
             <div className="hero-actions">
-              <a className="button button-primary" href="#contact">{t.hero.primary} <ArrowIcon /></a>
+              <a className="button button-primary" href="#trainings">{t.hero.primary} <ArrowIcon /></a>
               <a className="text-link" href="#focus">{t.hero.secondary} <span>↓</span></a>
             </div>
           </div>
