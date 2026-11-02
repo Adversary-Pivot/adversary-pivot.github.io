@@ -33,17 +33,16 @@ else
     --push
 fi
 
-if gh api "repos/${full_repository}/pages" >/dev/null 2>&1; then
-  gh api --method PUT "repos/${full_repository}/pages" \
-    --field build_type=workflow \
-    --field cname="${domain}" >/dev/null
-else
+if ! gh api "repos/${full_repository}/pages" >/dev/null 2>&1; then
+  # A first push can enable Pages between the GET and POST requests. Ignore that
+  # create-time conflict and let the idempotent update below confirm the state.
   gh api --method POST "repos/${full_repository}/pages" \
-    --field build_type=workflow >/dev/null
-  gh api --method PUT "repos/${full_repository}/pages" \
-    --field build_type=workflow \
-    --field cname="${domain}" >/dev/null
+    --field build_type=workflow >/dev/null 2>&1 || true
 fi
+
+gh api --method PUT "repos/${full_repository}/pages" \
+  --field build_type=workflow \
+  --field cname="${domain}" >/dev/null
 
 gh workflow run deploy.yml --repo "${full_repository}"
 
