@@ -8,7 +8,7 @@ full_repository="${owner}/${repository}"
 domain="adversarypivot.com"
 remote_url="https://github.com/${full_repository}.git"
 
-if ! gh auth status --hostname github.com >/dev/null 2>&1; then
+if ! gh auth status --active --hostname github.com >/dev/null 2>&1; then
   echo "GitHub CLI is not authenticated. Run: gh auth login --hostname github.com --web" >&2
   exit 1
 fi
