@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 
 const content = {
   en: {
-    brand: { first: 'ADVERSARY', second: 'PIVOT', aria: 'Adversary Pivot home' },
+    brand: { first: 'ADVERSARY', second: 'PIVOT', tagline: 'Offensive Cybersecurity Training', aria: 'Adversary Pivot home' },
     pageTitle: 'Adversary Pivot, Offensive Security Training',
     description: 'Adversary Pivot delivers offensive security training for cloud and DevOps teams.',
-    nav: { focus: 'Focus', approach: 'Approach', contact: 'Start a conversation', aria: 'Primary navigation' },
+    nav: { trainings: 'Trainings', focus: 'Focus', approach: 'Approach', contact: 'Start a conversation', aria: 'Primary navigation' },
     hero: {
       eyebrow: 'Cloud & DevOps Offensive Security Training',
       title: ['Break the path', 'before attackers do.'],
@@ -16,6 +16,17 @@ const content = {
     visual: { label: 'ATTACK PATH / 001', nodes: ['ENTRY', 'PIVOT', 'IMPACT'] },
     principlesAria: 'Training principles',
     principles: ['THREAT-INFORMED', 'HANDS-ON', 'ATTACK-PATH FOCUSED', 'BUILT FOR MODERN INFRASTRUCTURE'],
+    trainings: {
+      eyebrow: 'Training',
+      title: ['Build the skills to', 'follow the whole attack path.'],
+      intro: 'Practical offensive security training for the systems that connect code, identity, infrastructure, and production.',
+      status: 'In development',
+      course: 'Offensive CI/CD',
+      code: 'O-CICD',
+      abstract: 'An introductory, hands-on course on attacking Continuous Integration and Continuous Deployment pipelines—the automation layer that connects source code to production. Modern CI/CD platforms are trusted to host mission-critical code, provision infrastructure, define role-based access control, and update crown-jewel applications. O-CICD demystifies this critical layer, guides students through building a purpose-built CI/CD penetration testing workbench, and explores common attack paths in GitLab—as well as patterns that apply across CI/CD platforms—through live demonstrations and practical labs.',
+      metadata: [['LEVEL', 'INTRODUCTORY'], ['PLATFORM', 'GITLAB'], ['FORMAT', 'HANDS-ON LABS']],
+      agenda: 'Course agenda forthcoming.',
+    },
     focus: {
       eyebrow: 'Where we focus',
       title: ['Security lives in', 'the connections.'],
@@ -55,10 +66,10 @@ const content = {
     footer: 'Cloud & DevOps Offensive Security Training',
   },
   fr: {
-    brand: { first: 'PIVOT', second: 'ADVERSAIRE', aria: 'Accueil de Pivot Adversaire' },
+    brand: { first: 'PIVOT', second: 'ADVERSAIRE', tagline: 'Formation en cybersécurité offensive', aria: 'Accueil de Pivot Adversaire' },
     pageTitle: 'Pivot Adversaire, Formation en cybersécurité offensive',
     description: 'Pivot Adversaire offre de la formation en sécurité offensive aux équipes infonuagiques et DevOps.',
-    nav: { focus: 'Domaines', approach: 'Approche', contact: 'Parlons-nous', aria: 'Navigation principale' },
+    nav: { trainings: 'Formations', focus: 'Domaines', approach: 'Approche', contact: 'Parlons-nous', aria: 'Navigation principale' },
     hero: {
       eyebrow: 'Formation en sécurité offensive infonuagique et DevOps',
       title: ['Interrompez le parcours', 'avant les attaquants.'],
@@ -69,6 +80,17 @@ const content = {
     visual: { label: 'PARCOURS D’ATTAQUE / 001', nodes: ['ENTRÉE', 'PIVOT', 'IMPACT'] },
     principlesAria: 'Principes de formation',
     principles: ['AXÉ SUR LA MENACE', 'PRATIQUE', 'CENTRÉ SUR LES PARCOURS D’ATTAQUE', 'POUR LES INFRASTRUCTURES MODERNES'],
+    trainings: {
+      eyebrow: 'Formation',
+      title: ['Développez les compétences pour', 'suivre tout le parcours d’attaque.'],
+      intro: 'Une formation pratique en sécurité offensive pour les systèmes qui relient le code, l’identité, l’infrastructure et la production.',
+      status: 'En développement',
+      course: 'CI/CD offensif',
+      code: 'O-CICD',
+      abstract: 'Une formation d’introduction pratique consacrée à l’attaque des pipelines d’intégration et de déploiement continus (CI/CD)—la couche d’automatisation qui relie le code source à la production. Les plateformes CI/CD modernes sont chargées d’héberger du code critique, de provisionner l’infrastructure, de définir les contrôles d’accès fondés sur les rôles et de mettre à jour les applications les plus sensibles de l’organisation. O-CICD démystifie cette couche critique, guide les participants dans la création d’un environnement spécialisé pour les tests d’intrusion CI/CD et explore les parcours d’attaque courants dans GitLab—ainsi que les principes transférables à d’autres plateformes—au moyen de démonstrations en direct et de laboratoires pratiques.',
+      metadata: [['NIVEAU', 'INTRODUCTION'], ['PLATEFORME', 'GITLAB'], ['FORMAT', 'LABORATOIRES PRATIQUES']],
+      agenda: 'Plan de cours à venir.',
+    },
     focus: {
       eyebrow: 'Nos domaines d’expertise',
       title: ['La sécurité réside', 'dans les connexions.'],
@@ -139,7 +161,8 @@ function Brand({ translation, footer = false }) {
   return (
     <a className={`brand${footer ? ' brand-footer' : ''}`} href="#top" aria-label={translation.brand.aria}>
       <CloudMark label={translation.brand.aria} />
-      <span><b>{translation.brand.first}</b><em>{translation.brand.second}</em></span>
+      <span className="brand-name"><b>{translation.brand.first}</b><em>{translation.brand.second}</em></span>
+      {!footer && <small className="brand-tagline">{translation.brand.tagline}</small>}
     </a>
   )
 }
@@ -167,6 +190,7 @@ function App() {
       <header className="site-header">
         <Brand translation={t} />
         <nav aria-label={t.nav.aria}>
+          <a href="#trainings">{t.nav.trainings}</a>
           <a href="#focus">{t.nav.focus}</a>
           <a href="#approach">{t.nav.approach}</a>
           <div className="language-switch" role="group" aria-label={language === 'fr' ? 'Choix de langue' : 'Language selection'}>
@@ -208,6 +232,30 @@ function App() {
           {t.principles.map((principle, index) => (
             <span className="signal-item" key={principle}>{principle}{index < t.principles.length - 1 && <i />}</span>
           ))}
+        </section>
+
+        <section className="trainings section-pad" id="trainings">
+          <div className="training-intro">
+            <p className="eyebrow"><span /> {t.trainings.eyebrow}</p>
+            <h2>{t.trainings.title[0]}<br />{t.trainings.title[1]}</h2>
+            <p>{t.trainings.intro}</p>
+          </div>
+          <article className="course-card">
+            <div className="course-card-top">
+              <span className="course-code">{t.trainings.code}</span>
+              <span className="course-status"><i />{t.trainings.status}</span>
+            </div>
+            <div className="course-body">
+              <h3>{t.trainings.course}</h3>
+              <p className="course-abstract">{t.trainings.abstract}</p>
+              <div className="course-meta">
+                {t.trainings.metadata.map(([label, value]) => (
+                  <div key={label}><span>{label}</span><strong>{value}</strong></div>
+                ))}
+              </div>
+              <p className="course-agenda">{t.trainings.agenda}</p>
+            </div>
+          </article>
         </section>
 
         <section className="focus section-pad" id="focus">
