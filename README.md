@@ -25,4 +25,4 @@ With GitHub CLI authenticated, run:
 ./scripts/publish.sh
 ```
 
-The script targets the transferred public `Adversary-Pivot/filipjodoin-ap.github.io` repository, enables workflow-based GitHub Pages, sets `adversarypivot.com` as the custom domain, and watches the deployment. It will stop instead of creating another repository if the transferred repository is not found.
+The script renames the transferred public repository from `Adversary-Pivot/filipjodoin-ap.github.io` to `Adversary-Pivot/adversarypivot.github.io` when needed. It then enables workflow-based GitHub Pages, sets `adversarypivot.com` as the custom domain, and watches the deployment. It will stop instead of creating another repository if neither expected name is found.
