@@ -162,6 +162,7 @@ function Brand({ translation, footer = false }) {
 
 function App() {
   const [language, setLanguage] = useState(initialLanguage)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const t = content[language]
 
   useEffect(() => {
@@ -178,6 +179,15 @@ function App() {
     window.history.replaceState({}, '', url)
   }, [language, t])
 
+  useEffect(() => {
+    if (!mobileMenuOpen) return undefined
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') setMobileMenuOpen(false)
+    }
+    window.addEventListener('keydown', closeOnEscape)
+    return () => window.removeEventListener('keydown', closeOnEscape)
+  }, [mobileMenuOpen])
+
   return (
     <div className="site-shell">
       <header className="site-header">
@@ -187,10 +197,26 @@ function App() {
           <a href="#focus">{t.nav.focus}</a>
           <a href="#approach">{t.nav.approach}</a>
           <div className="language-switch" role="group" aria-label={language === 'fr' ? 'Choix de langue' : 'Language selection'}>
-            <button type="button" onClick={() => setLanguage('en')} aria-pressed={language === 'en'}>EN</button>
-            <button type="button" onClick={() => setLanguage('fr')} aria-pressed={language === 'fr'}>FR</button>
+            <button type="button" onClick={() => { setLanguage('en'); setMobileMenuOpen(false) }} aria-pressed={language === 'en'}>EN</button>
+            <button type="button" onClick={() => { setLanguage('fr'); setMobileMenuOpen(false) }} aria-pressed={language === 'fr'}>FR</button>
           </div>
           <a className="nav-cta" href={`mailto:${contactEmail}`}>{t.nav.contact}</a>
+          <button
+            className={`mobile-menu-toggle${mobileMenuOpen ? ' is-open' : ''}`}
+            type="button"
+            aria-label={mobileMenuOpen ? (language === 'fr' ? 'Fermer le menu' : 'Close menu') : (language === 'fr' ? 'Ouvrir le menu' : 'Open menu')}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation"
+            onClick={() => setMobileMenuOpen((open) => !open)}
+          >
+            <span /><span /><span />
+          </button>
+          <div id="mobile-navigation" className={`mobile-menu${mobileMenuOpen ? ' is-open' : ''}`}>
+            <a href="#trainings" onClick={() => setMobileMenuOpen(false)}><span>01</span>{t.nav.trainings}</a>
+            <a href="#focus" onClick={() => setMobileMenuOpen(false)}><span>02</span>{t.nav.focus}</a>
+            <a href="#approach" onClick={() => setMobileMenuOpen(false)}><span>03</span>{t.nav.approach}</a>
+            <a href={`mailto:${contactEmail}`} onClick={() => setMobileMenuOpen(false)}><span>04</span>{t.nav.contact}</a>
+          </div>
         </nav>
       </header>
 
@@ -198,7 +224,7 @@ function App() {
         <section className="hero section-grid">
           <div className="hero-copy">
             <p className="eyebrow"><span /> {t.hero.eyebrow}</p>
-            <h1>{t.hero.title[0]}<br />{t.hero.title[1]}</h1>
+            <h1><span>{t.hero.title[0]}</span><span>{t.hero.title[1]}</span></h1>
             <p className="hero-lede">{t.hero.lede}</p>
             <div className="hero-actions">
               <a className="button button-primary" href="#contact">{t.hero.primary} <ArrowIcon /></a>
