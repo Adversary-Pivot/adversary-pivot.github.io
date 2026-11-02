@@ -147,7 +147,7 @@ function ArrowIcon() {
 }
 
 function BrandIcon({ label }) {
-  return <img className="brand-icon" src="/adversary-pivot-app-icon-512.png" alt={label} />
+  return <img className="brand-icon" src="/adversary-pivot-app-icon.svg" alt={label} />
 }
 
 function Brand({ translation, footer = false }) {
