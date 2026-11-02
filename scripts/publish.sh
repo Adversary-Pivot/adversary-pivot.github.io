@@ -55,6 +55,10 @@ if git remote get-url origin >/dev/null 2>&1; then
 else
   git remote add origin "${remote_url}"
 fi
+
+local_sha="$(git rev-parse HEAD)"
+remote_sha="$(gh api "repos/${full_repository}/git/ref/heads/main" \
+  --jq '.object.sha' 2>/dev/null || true)"
 git push --set-upstream origin main
 
 if ! gh api "repos/${full_repository}/pages" >/dev/null 2>&1; then
@@ -68,13 +72,20 @@ gh api --method PUT "repos/${full_repository}/pages" \
   --field build_type=workflow \
   --field cname="${domain}" >/dev/null
 
-gh workflow run deploy.yml --repo "${full_repository}"
+if [[ "${remote_sha}" == "${local_sha}" ]]; then
+  expected_event="workflow_dispatch"
+  gh workflow run deploy.yml --repo "${full_repository}"
+else
+  expected_event="push"
+fi
 
 run_id=""
 for _ in {1..10}; do
   run_id="$(gh run list \
     --repo "${full_repository}" \
     --workflow deploy.yml \
+    --commit "${local_sha}" \
+    --event "${expected_event}" \
     --limit 1 \
     --json databaseId \
     --jq '.[0].databaseId // empty')"
