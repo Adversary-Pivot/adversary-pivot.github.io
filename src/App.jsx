@@ -146,21 +146,14 @@ function ArrowIcon() {
   return <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 5l5 5-5 5" /></svg>
 }
 
-function CloudMark({ label }) {
-  return (
-    <svg viewBox="0 0 112 84" role="img" aria-label={label}>
-      <path d="M26 70h56c13 0 23-9 23-21S95 28 82 28c-1 0-2 0-3 .2C76 15 64 6 50 6 32 6 18 20 18 38v2C9 43 3 51 3 60c0 6 3 10 7 10h16Z" />
-      <path d="M111 49H51" />
-      <circle cx="51" cy="49" r="10" />
-      <circle cx="108" cy="49" r="4" />
-    </svg>
-  )
+function BrandIcon({ label }) {
+  return <img className="brand-icon" src="/adversary-pivot-app-icon-512.png" alt={label} />
 }
 
 function Brand({ translation, footer = false }) {
   return (
     <a className={`brand${footer ? ' brand-footer' : ''}`} href="#top" aria-label={translation.brand.aria}>
-      <CloudMark label={translation.brand.aria} />
+      <BrandIcon label={translation.brand.aria} />
       <span className="brand-name"><b>{translation.brand.first}</b><em>{translation.brand.second}</em></span>
       {!footer && <small className="brand-tagline">{translation.brand.tagline}</small>}
     </a>
@@ -302,7 +295,7 @@ function App() {
         </section>
 
         <section className="contact section-pad" id="contact">
-          <div className="contact-mark"><CloudMark label={t.brand.aria} /></div>
+          <div className="contact-mark"><BrandIcon label={t.brand.aria} /></div>
           <p className="eyebrow"><span /> {t.contact.eyebrow}</p>
           <h2>{t.contact.title[0]}<br />{t.contact.title[1]}</h2>
           <p className="contact-copy">{t.contact.copy}</p>
